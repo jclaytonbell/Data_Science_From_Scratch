@@ -1,7 +1,6 @@
 # CHAPTER 4: LINEAR ALGEBRA
 
 
-
 class LinearAlgebra():
     """
     A class of Linear Algebra operations on Vectors and Matrices.

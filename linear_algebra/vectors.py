@@ -1,5 +1,4 @@
 # CHAPTER 4: LINEAR ALGEBRA
-
 # VECTORS
 
 class Vector(object):

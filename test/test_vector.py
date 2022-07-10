@@ -4,6 +4,8 @@ from linear_algebra.linear_algebra import LinearAlgebra
 V = [1.0, 2.5, 5, 7.5]
 W = [1, 3, 5, 7]
 X = [0, 1.2, 3.4, 5.6, 7.8]
+M = [V, W]
+N = [V, X]
 C = 2
 
 class Test_Polygon(unittest.TestCase):
@@ -11,33 +13,43 @@ class Test_Polygon(unittest.TestCase):
     def setUp(self):
         self.linalg = LinearAlgebra()
 
+    def test_matrix_shape(self):
+        """Test matrix_shape method."""
+        self.assertTupleEqual(self.linalg.matrix_shape(m=M), (2, 4))
+        with self.assertRaises(ValueError):
+            self.linalg.matrix_shape(m=C)
+        with self.assertRaises(ValueError):
+            self.linalg.matrix_shape(m=[[]])
+        with self.assertRaises(ValueError):
+            self.linalg.matrix_shape(m=[])
+
     def test_distance(self):
         """Test distance method."""
-        self.assertTrue(self.linalg.distance(v=V, w=W), 0)
+        self.assertEqual(round(self.linalg.distance(v=V, w=W), 6), 0.707107)
         with self.assertRaises(AssertionError):
             self.linalg.distance(v=V, w=X)
 
     def test_squared_distance(self):
         """Test squared_distance method."""
-        self.assertTrue(self.linalg.squared_distance(v=V, w=W), 0)
+        self.assertEqual(self.linalg.squared_distance(v=V, w=W), 0.5)
         with self.assertRaises(AssertionError):
             self.linalg.squared_distance(v=V, w=X)
 
     def test_vector_magnitude(self):
         """Test vector_magnitude method."""
-        self.assertTrue(round(self.linalg.vector_magnitude(v=V), 6), 9.407444)
+        self.assertEqual(round(self.linalg.vector_magnitude(v=V), 6), 9.407444)
         with self.assertRaises(ValueError):
             self.linalg.vector_magnitude(v=C)
 
     def test_sum_of_squares(self):
         """Test sum_of_squares method."""
-        self.assertTrue(self.linalg.sum_of_squares(v=V), 88.5)
+        self.assertEqual(self.linalg.sum_of_squares(v=V), 88.5)
         with self.assertRaises(ValueError):
             self.linalg.sum_of_squares(v=C)
 
     def test_dot_product(self):
         """Test dot_product method."""
-        self.assertTrue(self.linalg.dot_product(v=V, w=W), 86)
+        self.assertEqual(self.linalg.dot_product(v=V, w=W), 86)
         with self.assertRaises(AssertionError):
             self.linalg.dot_product(v=V, w=X)
 
@@ -70,7 +82,18 @@ class Test_Polygon(unittest.TestCase):
         self.assertListEqual(self.linalg.vector_subtract(v=V, w=W), [0, -0.5, 0, 0.5])
         with self.assertRaises(AssertionError):
             self.linalg.vector_subtract(v=V, w=X)
-        
+
+    def test_validate_matrix(self):
+        """Test _validate_matrix_ method."""
+        self.assertTrue(self.linalg._validate_matrix_(M))
+        self.assertTrue(self.linalg._validate_matrix_([V]))
+        with self.assertRaises(ValueError):
+            self.linalg._validate_matrix_(C)
+        with self.assertRaises(AssertionError):
+            self.linalg._validate_matrix_(N)
+        with self.assertRaises(ValueError):
+            self.linalg._validate_matrix_([])
+
     def test_validate_vectors_same_length(self):
         """Test _validate_vectors_same_length_ method."""
         self.assertTrue(self.linalg._validate_vectors_same_length_([V, W]))
@@ -89,10 +112,15 @@ class Test_Polygon(unittest.TestCase):
         self.assertTrue(self.linalg._validate_vector_(V))
         with self.assertRaises(ValueError):
             self.linalg._validate_vector_('a')
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_(['2'])
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_(1.234)
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_(1)
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_([])
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_(None)
 
     def test_validate_scalar_(self):
@@ -100,6 +128,10 @@ class Test_Polygon(unittest.TestCase):
         self.assertTrue(self.linalg._validate_scalar_(C))
         with self.assertRaises(ValueError):
             self.linalg._validate_vector_('a')
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_(['2'])
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_([])
+        with self.assertRaises(ValueError):
             self.linalg._validate_vector_(None)
+

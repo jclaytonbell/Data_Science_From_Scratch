@@ -11,6 +11,15 @@ class LinearAlgebra():
         Initialize class.
         """
 
+    def matrix_shape(self, m):
+        """
+        Return the shape of the input matrix (number of rows, number of columns).
+        """
+        self._validate_matrix_(m)
+        n_rows = len(m)
+        n_cols = len(m[0])
+        return n_rows, n_cols
+
     def distance(self, v, w):
         """
         Returns the distance between two vectors of the same dimensions, i.e., the magnitude of the vector created by
@@ -115,11 +124,19 @@ class LinearAlgebra():
         self._validate_vectors_same_length_(vector_list=vector_list)
         return [v_i - w_i for v_i, w_i in zip(v, w)]
 
+    def _validate_matrix_(self, m):
+        """
+        Return True if input matrix is a list of vectors of the same length.
+        """
+        return self._validate_vectors_same_length_(m)
+
     def _validate_vectors_same_length_(self, vector_list):
         """
         Return True if inputs are vectors of the same length
         """
         if self._validate_vectors_(vector_list=vector_list):
+            if not len(vector_list) > 0:
+                raise ValueError("Input is not a list of lists.")
             a = len(vector_list[0])
             if all(len(i) == a for i in vector_list):
                 return True
@@ -141,11 +158,16 @@ class LinearAlgebra():
         """
         Return True if input is a list of numbers.
         """
+        err_msg = "Vectors must be represented by a list of numeric values."
         if isinstance(vector, list):
+            if not len(vector) > 0:
+                raise ValueError(err_msg)
             if all([isinstance(i, (int, float)) for i in vector]):
                 return True
+            else:
+                raise ValueError(err_msg)
         else:
-            raise ValueError("Vectors must be represented by a list of numeric values.")
+            raise ValueError(err_msg)
 
     @staticmethod
     def _validate_scalar_(scalar):

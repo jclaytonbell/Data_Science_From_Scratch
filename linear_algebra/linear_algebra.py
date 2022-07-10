@@ -1,58 +1,55 @@
 # CHAPTER 4: LINEAR ALGEBRA
 
-
 class LinearAlgebra():
     """
-    A class of Linear Algebra operations on Vectors and Matrices.
+    A class to define linear algebra vector and matrix operations.
     """
 
-    def __init__(self, name, val_list):
-        if self._validate_name_(name):
-            self.name = name
-        if self._validate_values_(val_list):
-            self.values = val_list
+    def __init__(self):
+        """
+        Initialize class
+        """
 
-    def set_name(self, name):
+    def vector_add(self, v, w):
         """
-        Set vector name
-        """
-        self.name = name
+        Return a new vector created by the sum of two input vectors (v and w) of the same dimensions.
 
-    def get_name(self):
-        """
-        Get vector name
-        """
-        return self.name
+        x = [v[0] + w[0], v[1] + w[1],....v[n] + w[n]]
 
-    def set_values(self, val_list):
         """
-        Set vector values
-        """
-        self.values = val_list
+        vector_list = [v, w]
+        self._validate_vectors_same_length_(vector_list=vector_list)
+        return [v_i + w_i for v_i, w_i in zip(v, w)]
 
-    def get_values(self):
+    def _validate_vectors_same_length_(self, vector_list):
         """
-        Get vector values
+        Return True if inputs are vectors of the same length
         """
-        return self.values
+        if self._validate_vectors_(vector_list=vector_list):
+            a = len(vector_list[0])
+            if all(len(i) == a for i in vector_list):
+                return True
+            else:
+                raise ValueError("Vectors are not the same length.")
+
+    def _validate_vectors_(self, vector_list):
+        """
+        Return True if input is a list of valid vectors.
+        """
+        if isinstance(vector_list, list):
+            if all([self._validate_vector_(i) for i in vector_list]):
+                return True
+        else:
+            raise ValueError("Vectors must be represented by a list of numeric values.")
 
     @staticmethod
-    def _validate_name_(name):
+    def _validate_vector_(vector):
         """
-        Return True if input is a string
+        Return True if input is a list of numbers.
         """
-        if isinstance(name, str):
-            return True
+        if isinstance(vector, list):
+            if all([isinstance(i, (int, float)) for i in vector]):
+                return True
         else:
-            raise ValueError("Vector name must be a string.")
-
-    @staticmethod
-    def _validate_values_(val_list):
-        """
-        Return True if input is a list of numbers
-        """
-        if all([isinstance(i, (int, float)) for i in val_list]):
-            return True
-        else:
-            raise ValueError("Vector values must be a list of numeric values.")
+            raise ValueError("Vectors must be represented by a list of numeric values.")
 

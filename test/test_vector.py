@@ -1,50 +1,45 @@
 import unittest
-from linear_algebra.vectors import Vector
+from linear_algebra.linear_algebra import LinearAlgebra
 
-NAME1 = 'test_vector'
-NAME2 = 'renamed_vector'
-VALS1 = [1, 2, 3.5, 4.]
-VALS2 = [4, 3.5, 2, 1.]
+V = [1.0, 2.5, 5, 7.5]
+W = [1, 3, 5, 7]
+X = [0, 1.2, 3.4, 5.6, 7.8]
 
 class Test_Polygon(unittest.TestCase):
 
     def setUp(self):
-        self.vector = Vector(name=NAME1, val_list=VALS1)
+        self.vector = LinearAlgebra()
 
-    def test_set_name(self):
-        """Test set_name method."""
-        self.vector.set_name(name=NAME2)
-        self.assertTrue(self.vector.name == NAME2)
-
-    def test_get_name(self):
-        """Test get_name method."""
-        self.assertTrue(self.vector.get_name() == NAME1)
-
-    def test_set_values(self):
-        """Test set_values method."""
-        self.vector.set_values(val_list=VALS2)
-        self.assertListEqual(self.vector.values, VALS2)
-
-    def test_get_values(self):
-        """Test get_values method."""
-        self.assertListEqual(self.vector.get_values(), VALS1)
-
-    def test_validate_name_(self):
-        """Test _validate_name_ method."""
-        self.assertTrue(self.vector._validate_name_(NAME1))
+    def test_validate_vectors_same_length(self):
+        """Test _validate_vectors_same_length_ method."""
+        self.assertTrue(self.vector._validate_vectors_same_length_([V, W]))
+        self.assertTrue(self.vector._validate_vectors_same_length_([V]))
         with self.assertRaises(ValueError):
-            self.vector._validate_name_(VALS1)
-            self.vector._validate_name_(1)
-            self.vector._validate_name_(1.234)
-            self.vector._validate_name_(None)
+            self.vector._validate_vectors_same_length_([V, X])
+            # self.vector._validate_vectors_(['2'])
+            # self.vector._validate_vectors_(1.234)
+            # self.vector._validate_vectors_(1)
+            # self.vector._validate_vectors_([])
+            # self.vector._validate_vectors_(None)
 
-    def test_validate_values_(self):
-        """Test _validate_values_ method."""
-        self.assertTrue(self.vector._validate_values_(VALS2))
+    def test_validate_vectors_(self):
+        """Test _validate_vectors_ method."""
+        self.assertTrue(self.vector._validate_vectors_([V, X]))
         with self.assertRaises(ValueError):
-            self.vector._validate_values_(NAME1)
-            self.vector._validate_values_(['2'])
-            self.vector._validate_values_(1.234)
-            self.vector._validate_values_(1)
-            self.vector._validate_values_([])
-            self.vector._validate_values_(None)
+            self.vector._validate_vectors_([V, 'a'])
+            self.vector._validate_vectors_(['2'])
+            self.vector._validate_vectors_(1.234)
+            self.vector._validate_vectors_(1)
+            self.vector._validate_vectors_([])
+            self.vector._validate_vectors_(None)
+
+    def test_validate_vector_(self):
+        """Test _validate_vector_ method."""
+        self.assertTrue(self.vector._validate_vector_(V))
+        with self.assertRaises(ValueError):
+            self.vector._validate_vector_('a')
+            self.vector._validate_vector_(['2'])
+            self.vector._validate_vector_(1.234)
+            self.vector._validate_vector_(1)
+            self.vector._validate_vector_([])
+            self.vector._validate_vector_(None)

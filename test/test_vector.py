@@ -13,6 +13,35 @@ class Test_Polygon(unittest.TestCase):
     def setUp(self):
         self.linalg = LinearAlgebra()
 
+    def test_make_matrix(self):
+        """Test make_matrix method."""
+        m1 = self.linalg.make_matrix(n_rows=2, n_columns=2, entry_fn=self.linalg.zeroes)
+        self.assertTupleEqual(self.linalg.matrix_shape(m=m1), (2, 2))
+        self.assertListEqual(m1, [[0, 0], [0, 0]])
+        m2 = self.linalg.make_matrix(n_rows=2, n_columns=2, entry_fn=self.linalg.ones)
+        self.assertTupleEqual(self.linalg.matrix_shape(m=m2), (2, 2))
+        self.assertListEqual(m2, [[1, 1], [1, 1]])
+        m3 = self.linalg.make_matrix(n_rows=2, n_columns=2, entry_fn=self.linalg.is_diagonal)
+        self.assertTupleEqual(self.linalg.matrix_shape(m=m3), (2, 2))
+        self.assertListEqual(m3, [[1, 0], [0, 1]])
+        m4 = self.linalg.make_matrix(n_rows=2, n_columns=2, entry_fn=None)
+        self.assertTupleEqual(self.linalg.matrix_shape(m=m4), (2, 2))
+        self.assertListEqual(m4, [[0, 0], [0, 0]])
+        with self.assertRaises(ValueError):
+            self.linalg.make_matrix(n_rows=-2, n_columns=-2, entry_fn=None)
+
+    def test_get_row(self):
+        """Test get_row method."""
+        self.assertListEqual(self.linalg.get_row(m=M, i=0), V)
+        with self.assertRaises(ValueError):
+            self.assertListEqual(self.linalg.get_row(m=C, i=0), V)
+
+    def test_get_column(self):
+        """Test get_column method."""
+        self.assertListEqual(self.linalg.get_column(m=M, j=0), [1.0, 1])
+        with self.assertRaises(ValueError):
+            self.assertListEqual(self.linalg.get_column(m=C, j=0), W)
+
     def test_matrix_shape(self):
         """Test matrix_shape method."""
         self.assertTupleEqual(self.linalg.matrix_shape(m=M), (2, 4))

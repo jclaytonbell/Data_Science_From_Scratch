@@ -11,6 +11,49 @@ class LinearAlgebra():
         Initialize class.
         """
 
+    def is_diagonal(self, i, j):
+        """
+        Returns 1 when i == j (i.e., the diagonal), other wise returns 0.
+        """
+        return 1 if i == j else 0
+
+    def ones(self, i, j):
+        """
+        Returns 1 for all elements in the matrix.
+        """
+        return 1
+
+    def zeroes(self, i, j):
+        """
+        Returns 1 for all elements in the matrix.
+        """
+        return 0
+
+    def make_matrix(self, n_rows, n_columns, entry_fn=None):
+        """
+        Returns a new matrix with n_rows and n_columns, whose (i, j)th element is set by the given entry function
+        entry_fn(i, j).
+        """
+        if not all([isinstance(i, int) and i > 0 for i in [n_rows, n_columns]]):
+            raise ValueError("n_rows and n_columns must be positive integers.")
+        if entry_fn is None:
+            entry_fn = self.zeroes
+        return [[entry_fn(i, j) for j in range(n_columns)] for i in range(n_rows)]
+
+    def get_row(self, m, i):
+        """
+        Returns the ith row of the input matrix.
+        """
+        self._validate_matrix_(m)
+        return m[i]
+
+    def get_column(self, m, j):
+        """
+        Returns the jth column of the input matrix.
+        """
+        self._validate_matrix_(m)
+        return [v[j] for v in m]
+
     def matrix_shape(self, m):
         """
         Return the shape of the input matrix (number of rows, number of columns).

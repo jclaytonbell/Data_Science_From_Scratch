@@ -1,4 +1,5 @@
 # CHAPTER 5: STATISTICS
+from collections import Counter
 from util import validate_scalar, validate_vector
 
 class Stats():
@@ -100,3 +101,18 @@ class Stats():
         """
         q_index = int(q * self._num_points_(vector=vector))
         return sorted(vector)[q_index]
+
+    def vector_mode(self, vector):
+        """
+        Returns the most common value (or values) in the vector as a list.
+        """
+        validate_vector(vector)
+        return self._vector_mode_(vector)
+
+    def _vector_mode_(self, vector):
+        """
+        Returns the most common value (or values) in the vector as a list.
+        """
+        counts = Counter(vector)
+        max_count = max(counts.values())
+        return [x for x, count in counts.items() if count == max_count]

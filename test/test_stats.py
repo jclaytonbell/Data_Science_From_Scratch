@@ -57,3 +57,11 @@ class Test_Stats(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.assertEqual(self.stats.vector_quantile(vector=C, q=0.25), 4)
             self.assertEqual(self.stats.vector_quantile(vector='C', q=0.25), 4)
+
+    def test_vector_mode(self):
+        """Test vector_mode method."""
+        self.assertListEqual(self.stats.vector_mode(vector=V+W), [1, 5])
+        self.assertListEqual(self.stats.vector_mode(vector=V + W + V[0:2]), [1])
+        with self.assertRaises(ValueError):
+            self.assertListEqual(self.stats.vector_mode(vector=C), [4])
+            self.assertListEqual(self.stats.vector_mode(vector='C'), [4])

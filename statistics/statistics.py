@@ -83,7 +83,7 @@ class Stats():
         else:                       # If n is even, take average of two center values
             return (sorted_vector[midpoint] + sorted_vector[midpoint - 1]) / 2
 
-    def vector_quantile(self, vector, p):
+    def vector_quantile(self, vector, q):
         """
         Returns the pth percentile value in the input vector.
         """

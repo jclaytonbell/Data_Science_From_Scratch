@@ -8,7 +8,7 @@ M = [V, W]
 N = [V, X]
 C = 2
 
-class Test_Polygon(unittest.TestCase):
+class Test_LinAlg(unittest.TestCase):
 
     def setUp(self):
         self.linalg = LinearAlgebra()
@@ -112,55 +112,6 @@ class Test_Polygon(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.linalg.vector_subtract(v=V, w=X)
 
-    def test_validate_matrix(self):
-        """Test _validate_matrix_ method."""
-        self.assertTrue(self.linalg._validate_matrix_(M))
-        self.assertTrue(self.linalg._validate_matrix_([V]))
-        with self.assertRaises(ValueError):
-            self.linalg._validate_matrix_(C)
-        with self.assertRaises(AssertionError):
-            self.linalg._validate_matrix_(N)
-        with self.assertRaises(ValueError):
-            self.linalg._validate_matrix_([])
 
-    def test_validate_vectors_same_length(self):
-        """Test _validate_vectors_same_length_ method."""
-        self.assertTrue(self.linalg._validate_vectors_same_length_([V, W]))
-        self.assertTrue(self.linalg._validate_vectors_same_length_([V]))
-        with self.assertRaises(AssertionError):
-            self.linalg._validate_vectors_same_length_([V, X])
 
-    def test_validate_vectors_(self):
-        """Test _validate_vectors_ method."""
-        self.assertTrue(self.linalg._validate_vectors_([V, X]))
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vectors_([V, 'a'])
-
-    def test_validate_vector_(self):
-        """Test _validate_vector_ method."""
-        self.assertTrue(self.linalg._validate_vector_(V))
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_('a')
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_(['2'])
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_(1.234)
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_(1)
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_([])
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_(None)
-
-    def test_validate_scalar_(self):
-        """Test _validate_scalar_ method."""
-        self.assertTrue(self.linalg._validate_scalar_(C))
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_('a')
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_(['2'])
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_([])
-        with self.assertRaises(ValueError):
-            self.linalg._validate_vector_(None)
 

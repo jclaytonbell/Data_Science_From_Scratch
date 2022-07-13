@@ -1,4 +1,5 @@
 # CHAPTER 4: LINEAR ALGEBRA
+from util import validate_scalar, validate_vector, validate_matrix
 import math
 
 class LinearAlgebra():
@@ -44,24 +45,40 @@ class LinearAlgebra():
         """
         Returns the ith row of the input matrix.
         """
-        self._validate_matrix_(m)
+        validate_matrix(m)
+        return self._get_row_(m=m, i=i)
+
+    def _get_row_(self, m, i):
+        """
+        Returns the ith row of the input matrix.
+        """
         return m[i]
 
     def get_column(self, m, j):
         """
         Returns the jth column of the input matrix.
         """
-        self._validate_matrix_(m)
+        validate_matrix(m)
+        return self._get_column_(m=m, j=j)
+
+    def _get_column_(self, m, j):
+        """
+        Returns the jth column of the input matrix.
+        """
         return [v[j] for v in m]
 
     def matrix_shape(self, m):
         """
         Return the shape of the input matrix (number of rows, number of columns).
         """
-        self._validate_matrix_(m)
-        n_rows = len(m)
-        n_cols = len(m[0])
-        return n_rows, n_cols
+        validate_matrix(m)
+        return self._matrix_shape_(m=m)
+
+    def _matrix_shape_(self, m):
+        """
+        Return the shape of the input matrix (number of rows, number of columns).
+        """
+        return len(m), len(m[0])
 
     def distance(self, v, w):
         """
@@ -71,7 +88,18 @@ class LinearAlgebra():
         distance = sqrt( (v_1 - w_1) ^ 2 + (v_2 - w_2) ^ 2 + ..... + (v_n - w_n) ^ 2 )
 
         """
-        return self.vector_magnitude(v=self.vector_subtract(v, w))
+        validate_matrix(matrix=[v, w])
+        return self._distance_(v=v, w=w)
+
+    def _distance_(self, v, w):
+        """
+        Returns the distance between two vectors of the same dimensions, i.e., the magnitude of the vector created by
+        subtracting the two input vectors.
+
+        distance = sqrt( (v_1 - w_1) ^ 2 + (v_2 - w_2) ^ 2 + ..... + (v_n - w_n) ^ 2 )
+
+        """
+        return self._vector_magnitude_(v=self._vector_subtract_(v, w))
 
     def squared_distance(self, v, w):
         """
@@ -80,7 +108,17 @@ class LinearAlgebra():
         squared_distance = (v_1 - w_1) ^ 2 + (v_2 - w_2) ^ 2 + ..... + (v_n - w_n) ^ 2
 
         """
-        return self.sum_of_squares(v=self.vector_subtract(v, w))
+        validate_matrix(matrix=[v, w])
+        return self._squared_distance_(v=v, w=w)
+
+    def _squared_distance_(self, v, w):
+        """
+        Returns the sum of the squared differences between two vectors of the same dimensions.
+
+        squared_distance = (v_1 - w_1) ^ 2 + (v_2 - w_2) ^ 2 + ..... + (v_n - w_n) ^ 2
+
+        """
+        return self._sum_of_squares_(v=self._vector_subtract_(v, w))
 
     def vector_magnitude(self, v):
         """
@@ -89,8 +127,17 @@ class LinearAlgebra():
         magnitude = sqrt(v_1 ^ 2 + v_2 ^ 2 + ..... + v_n ^ 2)
 
         """
-        self._validate_vector_(vector=v)
-        return math.sqrt(self.sum_of_squares(v=v))
+        validate_vector(vector=v)
+        return self._vector_magnitude_(v=v)
+
+    def _vector_magnitude_(self, v):
+        """
+        Returns the magnitude of a vector, i.e., the square root of the dot product of a vector and itself.
+
+        magnitude = sqrt(v_1 ^ 2 + v_2 ^ 2 + ..... + v_n ^ 2)
+
+        """
+        return math.sqrt(self._sum_of_squares_(v=v))
 
     def sum_of_squares(self, v):
         """
@@ -99,8 +146,17 @@ class LinearAlgebra():
         sum_of_squares = v_1 ^ 2 + v_2 ^ 2 + ..... + v_n ^ 2
 
         """
-        self._validate_vector_(vector=v)
-        return self.dot_product(v=v, w=v)
+        validate_vector(vector=v)
+        return self._sum_of_squares_(v=v)
+
+    def _sum_of_squares_(self, v):
+        """
+        Returns the sum of squares of a vector, i.e., the dot product of a vector and itself.
+
+        sum_of_squares = v_1 ^ 2 + v_2 ^ 2 + ..... + v_n ^ 2
+
+        """
+        return self._dot_product_(v=v, w=v)
 
     def dot_product(self, v, w):
         """
@@ -109,7 +165,16 @@ class LinearAlgebra():
         dot_product = v_1 * w_1 + v_2 * w_2 + ..... + v_n * w_n
 
         """
-        self._validate_vectors_same_length_(vector_list=[v, w])
+        validate_matrix(matrix=[v, w])
+        return self._dot_product_(v=v, w=w)
+
+    def _dot_product_(self, v, w):
+        """
+        Returns the dot product of two vectors, i.e., the sum of the products of the vector elements:
+
+        dot_product = v_1 * w_1 + v_2 * w_2 + ..... + v_n * w_n
+
+        """
         return sum(v_i * w_i for v_i, w_i in zip(v, w))
 
     def vector_mean(self, vector_list):
@@ -121,9 +186,19 @@ class LinearAlgebra():
         x = [(v[0] + w[0]) / n, (v[1] + w[1]) / n,....(v[n] + w[n]) / n]
 
         """
-        self._validate_vectors_same_length_(vector_list=vector_list)
+        validate_matrix(matrix=vector_list)
+        return self._vector_mean_(vector_list=vector_list)
+
+    def _vector_mean_(self, vector_list):
+        """
+        Return a new vector created by summing a list of vectors of the same dimensions, and dividing each element by
+        the number of the input vectors (i.e., returns the average of each vector element)
+
         n = len(vector_list)
-        return self.scalar_multiply(1 / n, self.vector_sum(vector_list=vector_list))
+        x = [(v[0] + w[0]) / n, (v[1] + w[1]) / n,....(v[n] + w[n]) / n]
+
+        """
+        return self.scalar_multiply(1 / len(vector_list), self._vector_sum_(vector_list=vector_list))
 
     def scalar_multiply(self, c, v):
         """
@@ -132,11 +207,27 @@ class LinearAlgebra():
         x = [c * v[0], c * v[1],....c * v[n]]
 
         """
-        self._validate_scalar_(scalar=c)
-        self._validate_vector_(vector=v)
+        validate_scalar(scalar=c)
+        validate_vector(vector=v)
+        return self._scalar_multiply_(c=c, v=v)
+
+    def _scalar_multiply_(self, c, v):
+        """
+        Returns the a new vector created by multiplying the input vector by a scalar.
+
+        x = [c * v[0], c * v[1],....c * v[n]]
+
+        """
         return [c * v_i for v_i in v]
 
     def vector_sum(self, vector_list):
+        """
+        Return a new vector created by summing a list of vectors of the same dimensions.
+        """
+        validate_matrix(matrix=vector_list)
+        return self._vector_sum_(vector_list=vector_list)
+
+    def _vector_sum_(self, vector_list):
         """
         Return a new vector created by summing a list of vectors of the same dimensions.
         """
@@ -152,8 +243,16 @@ class LinearAlgebra():
         x = [v[0] + w[0], v[1] + w[1],....v[n] + w[n]]
 
         """
-        vector_list = [v, w]
-        self._validate_vectors_same_length_(vector_list=vector_list)
+        validate_matrix(matrix=[v, w])
+        return self._vector_add_(v=v, w=w)
+
+    def _vector_add_(self, v, w):
+        """
+        Return a new vector created by adding two input vectors (v and w) of the same dimensions.
+
+        x = [v[0] + w[0], v[1] + w[1],....v[n] + w[n]]
+
+        """
         return [v_i + w_i for v_i, w_i in zip(v, w)]
 
     def vector_subtract(self, v, w):
@@ -163,62 +262,19 @@ class LinearAlgebra():
         x = [v[0] - w[0], v[1] - w[1],....v[n] - w[n]]
 
         """
-        vector_list = [v, w]
-        self._validate_vectors_same_length_(vector_list=vector_list)
+        validate_matrix(matrix=[v, w])
+        return self._vector_subtract_(v=v, w=w)
+
+    def _vector_subtract_(self, v, w):
+        """
+        Return a new vector created by the difference of two input vectors (v and w) of the same dimensions.
+
+        x = [v[0] - w[0], v[1] - w[1],....v[n] - w[n]]
+
+        """
         return [v_i - w_i for v_i, w_i in zip(v, w)]
 
-    def _validate_matrix_(self, m):
-        """
-        Return True if input matrix is a list of vectors of the same length.
-        """
-        return self._validate_vectors_same_length_(m)
 
-    def _validate_vectors_same_length_(self, vector_list):
-        """
-        Return True if inputs are vectors of the same length
-        """
-        if self._validate_vectors_(vector_list=vector_list):
-            if not len(vector_list) > 0:
-                raise ValueError("Input is not a list of lists.")
-            a = len(vector_list[0])
-            if all(len(i) == a for i in vector_list):
-                return True
-            else:
-                raise AssertionError("Vectors are not the same length.")
 
-    def _validate_vectors_(self, vector_list):
-        """
-        Return True if input is a list of valid vectors.
-        """
-        if isinstance(vector_list, list):
-            if all([self._validate_vector_(vector=i) for i in vector_list]):
-                return True
-        else:
-            raise ValueError("Vectors must be represented by a list of numeric values.")
 
-    @staticmethod
-    def _validate_vector_(vector):
-        """
-        Return True if input is a list of numbers.
-        """
-        err_msg = "Vectors must be represented by a list of numeric values."
-        if isinstance(vector, list):
-            if not len(vector) > 0:
-                raise ValueError(err_msg)
-            if all([isinstance(i, (int, float)) for i in vector]):
-                return True
-            else:
-                raise ValueError(err_msg)
-        else:
-            raise ValueError(err_msg)
-
-    @staticmethod
-    def _validate_scalar_(scalar):
-        """
-        Return True if input is a number.
-        """
-        if isinstance(scalar, (int, float)):
-            return True
-        else:
-            raise ValueError("Scalars must be numeric values.")
 

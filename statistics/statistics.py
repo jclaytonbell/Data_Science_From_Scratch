@@ -182,6 +182,19 @@ class Stats():
         """
         return sqrt(self._vector_variance_(vector=vector))
 
+    def vector_interquartile_range(self, vector):
+        """
+        Returns the range between the 75th percentile value and the 25th percentile value.
+        """
+        validate_vector(vector)
+        return self._vector_interquartile_range_(vector=vector)
+
+    def _vector_interquartile_range_(self, vector):
+        """
+        Returns the range between the 75th percentile value and the 25th percentile value.
+        """
+        return self.vector_quantile(vector=vector, q=0.75) - self.vector_quantile(vector=vector, q=0.25)
+
     def vector_covariance(self, v, w):
         """
         Returns the covariance of two input vectors. Te covariance measures how two variables vary in tandem from their

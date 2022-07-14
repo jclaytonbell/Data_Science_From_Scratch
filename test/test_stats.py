@@ -94,6 +94,13 @@ class Test_Stats(unittest.TestCase):
             self.assertEqual(self.stats.vector_standard_deviation(vector=C), 2)
             self.assertEqual(self.stats.vector_standard_deviation(vector='C'), 2)
 
+    def test_vector_interquartile_range(self):
+        """Test vector_interquartile_range method."""
+        self.assertEqual(round(self.stats.vector_interquartile_range(vector=W), 6), 4)
+        with self.assertRaises(ValueError):
+            self.assertEqual(self.stats.vector_interquartile_range(vector=C), 2)
+            self.assertEqual(self.stats.vector_interquartile_range(vector='C'), 2)
+
     def test_vector_coveriance(self):
         """Test vector_covariance method."""
         self.assertEqual(round(self.stats.vector_covariance(v=V, w=W), 6), 7.333333)
@@ -102,7 +109,7 @@ class Test_Stats(unittest.TestCase):
             self.assertEqual(self.stats.vector_covariance(v=V, w='C'), 2)
 
     def test_vector_correlation(self):
-        """Test vector_correlatino method."""
+        """Test vector_correlation method."""
         self.assertEqual(round(self.stats.vector_correlation(v=V, w=W), 6), 0.993859)
         with self.assertRaises(ValueError):
             self.assertEqual(self.stats.vector_correlation(v=V, w=C), 2)

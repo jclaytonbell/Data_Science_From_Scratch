@@ -1,6 +1,8 @@
 # CHAPTER 5: STATISTICS
 from collections import Counter
-from util import validate_scalar, validate_vector
+from math import sqrt
+from util import validate_scalar, validate_vector, validate_matrix
+from linear_algebra.linear_algebra import LinearAlgebra as la
 
 class Stats():
     """
@@ -104,7 +106,7 @@ class Stats():
 
     def vector_mode(self, vector):
         """
-        Returns the most common value (or values) in the vector as a list.
+        Returns the most common value (or values) in the vector as a list (since there can be more than one).
         """
         validate_vector(vector)
         return self._vector_mode_(vector)
@@ -116,3 +118,111 @@ class Stats():
         counts = Counter(vector)
         max_count = max(counts.values())
         return [x for x, count in counts.items() if count == max_count]
+
+    def vector_range(self, vector):
+        """
+        Returns the dispersion (maximum value - the minimum value) of the input vector.
+        """
+        validate_vector(vector)
+        return self._vector_range_(vector=vector)
+
+    def _vector_range_(self, vector):
+        """
+        Returns the dispersion (maximum value - the minimum value) of the input vector.
+        """
+        return self._vector_max_(vector=vector) - self._vector_min_(vector=vector)
+
+    def vector_de_mean(self, vector):
+        """
+        Returns a new vector in which the vector mean has been subtracted from each element, so that the mean of the
+        new vector is 0. In other words, translate the vector by its mean.
+        """
+        validate_vector(vector)
+        return self._vector_de_mean_(vector=vector)
+
+    def _vector_de_mean_(self, vector):
+        """
+        Returns a new vector in which the vector mean has been subtracted from each element, so that the mean of the
+        new vector is 0. In other words, translate the vector by its mean.
+        """
+        mu = self._vector_mean_(vector=vector)
+        return [x - mu for x in vector]
+
+    def vector_variance(self, vector):
+        """
+        Returns the variance of the input vector, which is assumed to have at least 2 elements.
+
+        Note - We divide by n-1 instead of n because when the vector is a partial sampling from a much larger dataset,
+        the mean of the sample is only an estimate of the mean of the full dataset. This means that on average the
+        square of each elements deviation [(x - mu) ** 2 ] from the mean is underestimated, and we divide by (n - 1)
+        in an attempt to remove that bias.
+
+        https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
+        """
+        validate_vector(vector)
+        return self._vector_variance_(vector=vector)
+
+    def _vector_variance_(self, vector):
+        """
+        Returns the variance of the input vector, which is assumed to have at least 2 elements.
+        """
+        validate_vector(vector)
+        return la()._sum_of_squares_(v=self._vector_de_mean_(vector=vector)) / (self._num_points_(vector=vector) - 1)
+
+    def vector_standard_deviation(self, vector):
+        """
+        Returns the standard deviation of the input vector, calculated as the square root of the variance.
+        """
+        validate_vector(vector)
+        return self._vector_standard_deviation_(vector=vector)
+
+    def _vector_standard_deviation_(self, vector):
+        """
+        Returns the standard deviation of the input vector, calculated as the square root of the variance.
+        """
+        return sqrt(self._vector_variance_(vector=vector))
+
+    def vector_covariance(self, v, w):
+        """
+        Returns the covariance of two input vectors. Te covariance measures how two variables vary in tandem from their
+        means.
+
+        Recall the dot product sums up the products of the corresponding pairs of elements, so the covariance is the sum
+        of the products of the variances of the corresponding pairs of elements, divided by n - 1.
+
+        """
+        validate_matrix([v, w])
+        return self._vector_covariance_(v=v, w=w)
+
+    def _vector_covariance_(self, v, w):
+        """
+        Returns the covariance of two input vectors.
+        """
+
+        return la()._dot_product_(v=self._vector_de_mean_(vector=v),
+                                  w=self._vector_de_mean_(vector=w)) / (self._num_points_(v) - 1)
+
+    def vector_correlation(self, v, w):
+        """
+        Returns the correlation between the two input variables, calculated as the covariance of the two vectors divided
+        by their respective standard deviations.
+
+        Correlation will always be between -1 (perfect anti-correlation) and 1 (perfect correlation). The closer to 0,
+        the weaker the correlation.
+
+        """
+        validate_matrix([v, w])
+        return self._vector_correlation_(v=v, w=w)
+
+    def _vector_correlation_(self, v, w):
+        """
+        Returns the correlation between the two input variables, calculated as the covariance of the two vectors divided
+        by their respective standard deviations.
+
+        """
+        stdev_v = self._vector_standard_deviation_(vector=v)
+        stdev_w = self._vector_standard_deviation_(vector=w)
+        if stdev_v > 0 and stdev_w > 0:
+            return self._vector_covariance_(v, w) / stdev_v / stdev_w
+        else:
+            return 0

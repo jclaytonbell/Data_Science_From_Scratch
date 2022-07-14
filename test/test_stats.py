@@ -65,3 +65,45 @@ class Test_Stats(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.assertListEqual(self.stats.vector_mode(vector=C), [4])
             self.assertListEqual(self.stats.vector_mode(vector='C'), [4])
+
+    def test_vector_range(self):
+        """Test vector_range method."""
+        self.assertEqual(self.stats.vector_range(vector=W), 6)
+        with self.assertRaises(ValueError):
+            self.assertEqual(self.stats.vector_range(vector=C), 4)
+            self.assertEqual(self.stats.vector_range(vector='C'), 4)
+
+    def test_vector_de_mean(self):
+        """Test vector_de_mean method."""
+        self.assertListEqual(self.stats.vector_de_mean(vector=W), [-3, -1, 1, 3])
+        with self.assertRaises(ValueError):
+            self.assertListEqual(self.stats.vector_de_mean(vector=C), [-3, -1, 1, 3])
+            self.assertListEqual(self.stats.vector_de_mean(vector='C'), [-3, -1, 1, 3])
+
+    def test_vector_variance(self):
+        """Test vector_variance method."""
+        self.assertEqual(round(self.stats.vector_variance(vector=W), 6), 6.666667)
+        with self.assertRaises(ValueError):
+            self.assertEqual(self.stats.vector_variance(vector=C), 2)
+            self.assertEqual(self.stats.vector_variance(vector='C'), 2)
+
+    def test_vector_standard_deviation(self):
+        """Test vector_standard_deviation method."""
+        self.assertEqual(round(self.stats.vector_standard_deviation(vector=W), 6), 2.581989)
+        with self.assertRaises(ValueError):
+            self.assertEqual(self.stats.vector_standard_deviation(vector=C), 2)
+            self.assertEqual(self.stats.vector_standard_deviation(vector='C'), 2)
+
+    def test_vector_coveriance(self):
+        """Test vector_covariance method."""
+        self.assertEqual(round(self.stats.vector_covariance(v=V, w=W), 6), 7.333333)
+        with self.assertRaises(ValueError):
+            self.assertEqual(self.stats.vector_covariance(v=V, w=C), 2)
+            self.assertEqual(self.stats.vector_covariance(v=V, w='C'), 2)
+
+    def test_vector_correlation(self):
+        """Test vector_correlatino method."""
+        self.assertEqual(round(self.stats.vector_correlation(v=V, w=W), 6), 0.993859)
+        with self.assertRaises(ValueError):
+            self.assertEqual(self.stats.vector_correlation(v=V, w=C), 2)
+            self.assertEqual(self.stats.vector_correlation(v=V, w='C'), 2)

@@ -1,6 +1,6 @@
 # CHAPTER 4: LINEAR ALGEBRA
 from util import validate_scalar, validate_vector, validate_matrix
-import math
+from math import sqrt
 
 class LinearAlgebra():
     """
@@ -137,7 +137,7 @@ class LinearAlgebra():
         magnitude = sqrt(v_1 ^ 2 + v_2 ^ 2 + ..... + v_n ^ 2)
 
         """
-        return math.sqrt(self._sum_of_squares_(v=v))
+        return sqrt(self._sum_of_squares_(v=v))
 
     def sum_of_squares(self, v):
         """

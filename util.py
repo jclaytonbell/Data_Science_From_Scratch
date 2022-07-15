@@ -1,13 +1,13 @@
 
-def validate_vector(vector):
+def validate_vector(v):
     """
     Return True if input is a list of numbers.
     """
     err_msg = "Vectors must be represented by a list of numeric values."
-    if isinstance(vector, list):
-        if not len(vector) > 0:
+    if isinstance(v, list):
+        if not len(v) > 0:
             raise ValueError(err_msg)
-        if all([isinstance(i, (int, float)) for i in vector]):
+        if all([isinstance(i, (int, float)) for i in v]):
             return True
         else:
             raise ValueError(err_msg)
@@ -28,7 +28,7 @@ def validate_vectors(vector_list):
     Return True if input is a list of valid vectors.
     """
     if isinstance(vector_list, list):
-        if all([validate_vector(vector=i) for i in vector_list]):
+        if all([validate_vector(v=i) for i in vector_list]):
             return True
     else:
         raise ValueError("Vectors must be represented by a list of numeric values.")

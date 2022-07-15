@@ -14,71 +14,71 @@ class Stats():
         Initialize class.
         """
 
-    def num_points(self, vector):
+    def num_points(self, v):
         """
         Returns the number of elements within the input vector.
         """
-        validate_vector(vector)
-        return self._num_points_(vector=vector)
+        validate_vector(v)
+        return self._num_points_(v=v)
 
-    def _num_points_(self, vector):
+    def _num_points_(self, v):
         """
         Returns the number of elements within the input vector.
         """
-        return len(vector)
+        return len(v)
 
-    def vector_mean(self, vector):
+    def mean(self, v):
         """
         Returns the arithmetic mean of the input vector elements.
         """
-        validate_vector(vector)
-        return self._vector_mean_(vector=vector)
+        validate_vector(v)
+        return self._mean_(v=v)
 
-    def _vector_mean_(self, vector):
+    def _mean_(self, v):
         """
         Returns the arithmetic mean of the input vector elements.
         """
-        return sum(vector) / self._num_points_(vector)
+        return sum(v) / self._num_points_(v)
 
-    def vector_max(self, vector):
+    def max(self, v):
         """
         Returns the largest vector element.
         """
-        validate_vector(vector)
-        return self._vector_max_(vector=vector)
+        validate_vector(v)
+        return self._max_(v=v)
 
-    def _vector_max_(self, vector):
+    def _max_(self, v):
         """
         Returns the largest vector element.
         """
-        return max(vector)
+        return max(v)
 
-    def vector_min(self, vector):
+    def min(self, v):
         """
         Returns the smallest vector element.
         """
-        validate_vector(vector)
-        return self._vector_min_(vector=vector)
+        validate_vector(v)
+        return self._min_(v=v)
 
-    def _vector_min_(self, vector):
+    def _min_(self, v):
         """
         Returns the smallest vector element.
         """
-        return min(vector)
+        return min(v)
 
-    def vector_median(self, vector):
+    def median(self, v):
         """
         Returns the median value of the input vector.
         """
-        validate_vector(vector)
-        return self._vector_median_(vector=vector)
+        validate_vector(v)
+        return self._median_(v=v)
 
-    def _vector_median_(self, vector):
+    def _median_(self, v):
         """
         Returns the median value of the input vector.
         """
-        n = self._num_points_(vector=vector)
-        sorted_vector = sorted(vector)
+        n = self._num_points_(v=v)
+        sorted_vector = sorted(v)
         midpoint = n // 2           # Floor division to get index of median value
 
         if n % 2 == 1:              # If n is odd
@@ -86,14 +86,14 @@ class Stats():
         else:                       # If n is even, take average of two center values
             return (sorted_vector[midpoint] + sorted_vector[midpoint - 1]) / 2
 
-    def vector_quantile(self, vector, q):
+    def quantile(self, v, q):
         """
         Returns the pth percentile value in the input vector.
         """
-        validate_vector(vector)
-        return self._vector_quantile_(vector=vector, q=q)
+        validate_vector(v)
+        return self._quantile_(v=v, q=q)
 
-    def _vector_quantile_(self, vector, q):
+    def _quantile_(self, v, q):
         """
         Returns the pth percentile value in the input vector.
 
@@ -101,54 +101,54 @@ class Stats():
         and 75% would be greater than the returned value.
 
         """
-        q_index = int(q * self._num_points_(vector=vector))
-        return sorted(vector)[q_index]
+        q_index = int(q * self._num_points_(v=v))
+        return sorted(v)[q_index]
 
-    def vector_mode(self, vector):
+    def mode(self, v):
         """
         Returns the most common value (or values) in the vector as a list (since there can be more than one).
         """
-        validate_vector(vector)
-        return self._vector_mode_(vector)
+        validate_vector(v)
+        return self._mode_(v)
 
-    def _vector_mode_(self, vector):
+    def _mode_(self, v):
         """
         Returns the most common value (or values) in the vector as a list.
         """
-        counts = Counter(vector)
+        counts = Counter(v)
         max_count = max(counts.values())
         return [x for x, count in counts.items() if count == max_count]
 
-    def vector_range(self, vector):
+    def range(self, v):
         """
         Returns the dispersion (maximum value - the minimum value) of the input vector.
         """
-        validate_vector(vector)
-        return self._vector_range_(vector=vector)
+        validate_vector(v)
+        return self._range_(v=v)
 
-    def _vector_range_(self, vector):
+    def _range_(self, v):
         """
         Returns the dispersion (maximum value - the minimum value) of the input vector.
         """
-        return self._vector_max_(vector=vector) - self._vector_min_(vector=vector)
+        return self._max_(v=v) - self._min_(v=v)
 
-    def vector_de_mean(self, vector):
+    def de_mean(self, v):
         """
         Returns a new vector in which the vector mean has been subtracted from each element, so that the mean of the
         new vector is 0. In other words, translate the vector by its mean.
         """
-        validate_vector(vector)
-        return self._vector_de_mean_(vector=vector)
+        validate_vector(v)
+        return self._de_mean_(v=v)
 
-    def _vector_de_mean_(self, vector):
+    def _de_mean_(self, v):
         """
         Returns a new vector in which the vector mean has been subtracted from each element, so that the mean of the
         new vector is 0. In other words, translate the vector by its mean.
         """
-        mu = self._vector_mean_(vector=vector)
-        return [x - mu for x in vector]
+        mu = self._mean_(v=v)
+        return [x - mu for x in v]
 
-    def vector_variance(self, vector):
+    def variance(self, v):
         """
         Returns the variance of the input vector, which is assumed to have at least 2 elements.
 
@@ -159,43 +159,43 @@ class Stats():
 
         https://en.wikipedia.org/wiki/Unbiased_estimation_of_standard_deviation
         """
-        validate_vector(vector)
-        return self._vector_variance_(vector=vector)
+        validate_vector(v)
+        return self._variance_(v=v)
 
-    def _vector_variance_(self, vector):
+    def _variance_(self, v):
         """
         Returns the variance of the input vector, which is assumed to have at least 2 elements.
         """
-        validate_vector(vector)
-        return la()._sum_of_squares_(v=self._vector_de_mean_(vector=vector)) / (self._num_points_(vector=vector) - 1)
+        validate_vector(v)
+        return la()._sum_of_squares_(v=self._de_mean_(v=v)) / (self._num_points_(v=v) - 1)
 
-    def vector_standard_deviation(self, vector):
+    def standard_deviation(self, v):
         """
         Returns the standard deviation of the input vector, calculated as the square root of the variance.
         """
-        validate_vector(vector)
-        return self._vector_standard_deviation_(vector=vector)
+        validate_vector(v)
+        return self._standard_deviation_(v=v)
 
-    def _vector_standard_deviation_(self, vector):
+    def _standard_deviation_(self, v):
         """
         Returns the standard deviation of the input vector, calculated as the square root of the variance.
         """
-        return sqrt(self._vector_variance_(vector=vector))
+        return sqrt(self._variance_(v=v))
 
-    def vector_interquartile_range(self, vector):
+    def interquartile_range(self, v):
         """
         Returns the range between the 75th percentile value and the 25th percentile value.
         """
-        validate_vector(vector)
-        return self._vector_interquartile_range_(vector=vector)
+        validate_vector(v)
+        return self._interquartile_range_(v=v)
 
-    def _vector_interquartile_range_(self, vector):
+    def _interquartile_range_(self, v):
         """
         Returns the range between the 75th percentile value and the 25th percentile value.
         """
-        return self.vector_quantile(vector=vector, q=0.75) - self.vector_quantile(vector=vector, q=0.25)
+        return self._quantile_(v=v, q=0.75) - self._quantile_(v=v, q=0.25)
 
-    def vector_covariance(self, v, w):
+    def covariance(self, v, w):
         """
         Returns the covariance of two input vectors. Te covariance measures how two variables vary in tandem from their
         means.
@@ -205,17 +205,17 @@ class Stats():
 
         """
         validate_matrix([v, w])
-        return self._vector_covariance_(v=v, w=w)
+        return self._covariance_(v=v, w=w)
 
-    def _vector_covariance_(self, v, w):
+    def _covariance_(self, v, w):
         """
         Returns the covariance of two input vectors.
         """
 
-        return la()._dot_product_(v=self._vector_de_mean_(vector=v),
-                                  w=self._vector_de_mean_(vector=w)) / (self._num_points_(v) - 1)
+        return la()._dot_product_(v=self._de_mean_(v=v),
+                                  w=self._de_mean_(v=w)) / (self._num_points_(v) - 1)
 
-    def vector_correlation(self, v, w):
+    def correlation(self, v, w):
         """
         Returns the correlation between the two input variables, calculated as the covariance of the two vectors divided
         by their respective standard deviations.
@@ -225,17 +225,17 @@ class Stats():
 
         """
         validate_matrix([v, w])
-        return self._vector_correlation_(v=v, w=w)
+        return self._correlation_(v=v, w=w)
 
-    def _vector_correlation_(self, v, w):
+    def _correlation_(self, v, w):
         """
         Returns the correlation between the two input variables, calculated as the covariance of the two vectors divided
         by their respective standard deviations.
 
         """
-        stdev_v = self._vector_standard_deviation_(vector=v)
-        stdev_w = self._vector_standard_deviation_(vector=w)
+        stdev_v = self._standard_deviation_(v=v)
+        stdev_w = self._standard_deviation_(v=w)
         if stdev_v > 0 and stdev_w > 0:
-            return self._vector_covariance_(v, w) / stdev_v / stdev_w
+            return self._covariance_(v, w) / stdev_v / stdev_w
         else:
             return 0

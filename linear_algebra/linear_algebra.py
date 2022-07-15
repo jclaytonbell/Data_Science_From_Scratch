@@ -99,7 +99,7 @@ class LinearAlgebra():
         distance = sqrt( (v_1 - w_1) ^ 2 + (v_2 - w_2) ^ 2 + ..... + (v_n - w_n) ^ 2 )
 
         """
-        return self._vector_magnitude_(v=self._vector_subtract_(v, w))
+        return self._magnitude_(v=self._subtract_(v, w))
 
     def squared_distance(self, v, w):
         """
@@ -118,19 +118,19 @@ class LinearAlgebra():
         squared_distance = (v_1 - w_1) ^ 2 + (v_2 - w_2) ^ 2 + ..... + (v_n - w_n) ^ 2
 
         """
-        return self._sum_of_squares_(v=self._vector_subtract_(v, w))
+        return self._sum_of_squares_(v=self._subtract_(v, w))
 
-    def vector_magnitude(self, v):
+    def magnitude(self, v):
         """
         Returns the magnitude of a vector, i.e., the square root of the dot product of a vector and itself.
 
         magnitude = sqrt(v_1 ^ 2 + v_2 ^ 2 + ..... + v_n ^ 2)
 
         """
-        validate_vector(vector=v)
-        return self._vector_magnitude_(v=v)
+        validate_vector(v=v)
+        return self._magnitude_(v=v)
 
-    def _vector_magnitude_(self, v):
+    def _magnitude_(self, v):
         """
         Returns the magnitude of a vector, i.e., the square root of the dot product of a vector and itself.
 
@@ -146,7 +146,7 @@ class LinearAlgebra():
         sum_of_squares = v_1 ^ 2 + v_2 ^ 2 + ..... + v_n ^ 2
 
         """
-        validate_vector(vector=v)
+        validate_vector(v=v)
         return self._sum_of_squares_(v=v)
 
     def _sum_of_squares_(self, v):
@@ -177,28 +177,28 @@ class LinearAlgebra():
         """
         return sum(v_i * w_i for v_i, w_i in zip(v, w))
 
-    def vector_mean(self, vector_list):
+    def mean(self, v_list):
         """
         Return a new vector created by summing a list of vectors of the same dimensions, and dividing each element by
         the number of the input vectors (i.e., returns the average of each vector element)
 
-        n = len(vector_list)
+        n = len(v_list)
         x = [(v[0] + w[0]) / n, (v[1] + w[1]) / n,....(v[n] + w[n]) / n]
 
         """
-        validate_matrix(matrix=vector_list)
-        return self._vector_mean_(vector_list=vector_list)
+        validate_matrix(matrix=v_list)
+        return self._mean_(v_list=v_list)
 
-    def _vector_mean_(self, vector_list):
+    def _mean_(self, v_list):
         """
         Return a new vector created by summing a list of vectors of the same dimensions, and dividing each element by
         the number of the input vectors (i.e., returns the average of each vector element)
 
-        n = len(vector_list)
+        n = len(v_list)
         x = [(v[0] + w[0]) / n, (v[1] + w[1]) / n,....(v[n] + w[n]) / n]
 
         """
-        return self.scalar_multiply(1 / len(vector_list), self._vector_sum_(vector_list=vector_list))
+        return self.scalar_multiply(1 / len(v_list), self._sum_(v_list=v_list))
 
     def scalar_multiply(self, c, v):
         """
@@ -208,7 +208,7 @@ class LinearAlgebra():
 
         """
         validate_scalar(scalar=c)
-        validate_vector(vector=v)
+        validate_vector(v=v)
         return self._scalar_multiply_(c=c, v=v)
 
     def _scalar_multiply_(self, c, v):
@@ -220,23 +220,23 @@ class LinearAlgebra():
         """
         return [c * v_i for v_i in v]
 
-    def vector_sum(self, vector_list):
+    def sum(self, v_list):
         """
         Return a new vector created by summing a list of vectors of the same dimensions.
         """
-        validate_matrix(matrix=vector_list)
-        return self._vector_sum_(vector_list=vector_list)
+        validate_matrix(matrix=v_list)
+        return self._sum_(v_list=v_list)
 
-    def _vector_sum_(self, vector_list):
+    def _sum_(self, v_list):
         """
         Return a new vector created by summing a list of vectors of the same dimensions.
         """
-        result = vector_list[0]
-        for v in vector_list[1:]:
-            result = self.vector_add(v=result, w=v)
+        result = v_list[0]
+        for v in v_list[1:]:
+            result = self.add(v=result, w=v)
         return result
 
-    def vector_add(self, v, w):
+    def add(self, v, w):
         """
         Return a new vector created by adding two input vectors (v and w) of the same dimensions.
 
@@ -244,9 +244,9 @@ class LinearAlgebra():
 
         """
         validate_matrix(matrix=[v, w])
-        return self._vector_add_(v=v, w=w)
+        return self._add_(v=v, w=w)
 
-    def _vector_add_(self, v, w):
+    def _add_(self, v, w):
         """
         Return a new vector created by adding two input vectors (v and w) of the same dimensions.
 
@@ -255,7 +255,7 @@ class LinearAlgebra():
         """
         return [v_i + w_i for v_i, w_i in zip(v, w)]
 
-    def vector_subtract(self, v, w):
+    def subtract(self, v, w):
         """
         Return a new vector created by the difference of two input vectors (v and w) of the same dimensions.
 
@@ -263,9 +263,9 @@ class LinearAlgebra():
 
         """
         validate_matrix(matrix=[v, w])
-        return self._vector_subtract_(v=v, w=w)
+        return self._subtract_(v=v, w=w)
 
-    def _vector_subtract_(self, v, w):
+    def _subtract_(self, v, w):
         """
         Return a new vector created by the difference of two input vectors (v and w) of the same dimensions.
 

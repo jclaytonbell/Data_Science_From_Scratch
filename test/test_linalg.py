@@ -64,11 +64,11 @@ class Test_LinAlg(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.linalg.squared_distance(v=V, w=X)
 
-    def test_vector_magnitude(self):
-        """Test vector_magnitude method."""
-        self.assertEqual(round(self.linalg.vector_magnitude(v=V), 6), 9.407444)
+    def test_magnitude(self):
+        """Test magnitude method."""
+        self.assertEqual(round(self.linalg.magnitude(v=V), 6), 9.407444)
         with self.assertRaises(ValueError):
-            self.linalg.vector_magnitude(v=C)
+            self.linalg.magnitude(v=C)
 
     def test_sum_of_squares(self):
         """Test sum_of_squares method."""
@@ -82,11 +82,11 @@ class Test_LinAlg(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.linalg.dot_product(v=V, w=X)
 
-    def test_vector_mean(self):
-        """Test vector_mean method."""
-        self.assertListEqual(self.linalg.vector_mean(vector_list=[V, W]), [1.0, 2.75, 5, 7.25])
+    def test_mean(self):
+        """Test mean method."""
+        self.assertListEqual(self.linalg.mean(v_list=[V, W]), [1.0, 2.75, 5, 7.25])
         with self.assertRaises(AssertionError):
-            self.linalg.vector_sum(vector_list=[V, X])
+            self.linalg.sum(v_list=[V, X])
 
     def test_scalar_multiply(self):
         """Test scalar_multiply method."""
@@ -94,23 +94,23 @@ class Test_LinAlg(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.linalg.scalar_multiply(c='2', v=V)
 
-    def test_vector_sum(self):
-        """Test vector_sum method."""
-        self.assertListEqual(self.linalg.vector_sum(vector_list=[V, W]), [2.0, 5.5, 10, 14.5])
+    def test_sum(self):
+        """Test sum method."""
+        self.assertListEqual(self.linalg.sum(v_list=[V, W]), [2.0, 5.5, 10, 14.5])
         with self.assertRaises(AssertionError):
-            self.linalg.vector_sum(vector_list=[V, X])
+            self.linalg.sum(v_list=[V, X])
 
-    def test_vector_add(self):
-        """Test vector_add method."""
-        self.assertListEqual(self.linalg.vector_add(v=V, w=W), [2.0, 5.5, 10, 14.5])
+    def test_add(self):
+        """Test add method."""
+        self.assertListEqual(self.linalg.add(v=V, w=W), [2.0, 5.5, 10, 14.5])
         with self.assertRaises(AssertionError):
-            self.linalg.vector_add(v=V, w=X)
+            self.linalg.add(v=V, w=X)
 
-    def test_vector_subtract(self):
-        """Test vector_subtract method."""
-        self.assertListEqual(self.linalg.vector_subtract(v=V, w=W), [0, -0.5, 0, 0.5])
+    def test_subtract(self):
+        """Test subtract method."""
+        self.assertListEqual(self.linalg.subtract(v=V, w=W), [0, -0.5, 0, 0.5])
         with self.assertRaises(AssertionError):
-            self.linalg.vector_subtract(v=V, w=X)
+            self.linalg.subtract(v=V, w=X)
 
 
 

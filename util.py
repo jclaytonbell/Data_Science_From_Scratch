@@ -23,6 +23,33 @@ def validate_scalar(scalar):
     else:
         raise ValueError("Scalars must be numeric values.")
 
+def validate_positive_scalar(scalar):
+    """
+    Return True if input is a positive number.
+    """
+    if isinstance(scalar, (int, float)) and (scalar >= 0):
+        return True
+    else:
+        raise ValueError("Must be a positive number.")
+
+def validate_positive_integer(i):
+    """
+    Return True if input is a positive integer.
+    """
+    if isinstance(i, int) and (i >= 0):
+        return True
+    else:
+        raise ValueError("Must be a positive integer.")
+
+def validate_probability(scalar):
+    """
+    Return True if input is a real number between 0.0 and 1.0
+    """
+    if isinstance(scalar, (int, float)) and (1 >= scalar >= 0):
+        return True
+    else:
+        raise ValueError("Must be a real number between 0.0 and 1.0")
+
 def validate_vectors(vector_list):
     """
     Return True if input is a list of valid vectors.
